@@ -21,7 +21,7 @@
 title: Nicks Personal Docs
 email: nickpadge@gmail.com
 description: >- # this means to ignore newlines until "baseurl:"
-  Personal blog as a way to backup mmy memories of difficult software problems I've solved in the past.
+  Personal blog as a way to backup my memories of difficult software problems I've solved in the past.
 baseurl: "" # the subpath of your site, e.g. /blog
 url: "https://padge91.github.io" # the base hostname & protocol for your site, e.g. http://example.com
 twitter_username: jekyllrb

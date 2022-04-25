@@ -1,0 +1,34 @@
+---
+layout: post
+title: 'Welcome and Introductions'
+date: '2022-04-24'
+categories: general
+---
+
+#Why am I here?
+Throughout my software development career, I've come to solve many problems which I consider difficult. Some were difficult due to learning new technology, some due to the nature of the problem, some due to the obscurity of the solution, etc. The knowledge I've gathered through the course of my career is, if course, mine. But the code, mostly, is not.
+
+This puts me in a somewhat disadvantaged position. If learn how to solve a difficult problem once, I should be able to solve it N number of following times (similar to the written code). But let's be realistic. If I solve a difficult problem once, and then come across a similar problem 7 years later, it's very unlikely the full solution would come back to me. My memory isn't that reliable. 
+
+The code solving the solution is, in theory, "evergreen", but I can't ethically keep that same code as my memory backup, especially across companies. That would amount to stealing (the code, not the knowledge). Thus, this blog is an attempt for me to capitalize my knowledge. 
+
+# Why can't I remember?
+I'm hoping this blog helps me realize my full learnings throughout my career. Software development is, in my experience, primarily driven by trial and error. We implement a solution, and expect it to be faulty. If my code works perfectly the first time, not only am I shocked, I'm legitimately concerned.
+
+Over the course of developing a soluton to a problem you could easily iterate over an implementation 50 times. During those iterations, you learn an immense amount of details about the problem, and the potential solutions. Sure you may have a good idea of the solution space at the outset, but it's to be expectd to *discover* nuances of the problem all along the way. The solution and its nuances can be easily remembered a few days or weeks after implementation, but what about years? 
+
+I actually think it's similar to reminescing about old times with friends who you haven't seen in decades. Each of you recall stories or events, some of which you remember, and others you don't. Through the discussions, some memories come back that you haven't though of in a very long time. Small details spring into your mind, reforming your memories as you dust off their cobwebs. Implementing a code to solve a problem which you've already solved previously feels *exactly* likes this to me.
+
+But why did I forget in the first place? It's easy; I can only keep so much in my head at once. Some of the solutions we work on are immensely difficult, and we push our minds, and patience, to the limit to make efficient, robust, and stable software. Once a solution is made to a satisfactory state, we need to reclaim all that brainpower for th next solution.
+
+The assembly line of our mind is trained to make a product, and is efficient at organizing our thoughts and processes. But when we're on to a different problem, we gotta clear out stock. Lay off workers, cut the overhead, update the lines. We can't let a "solved" problem take up any real estate in our mind when trying to work on an "unsolved" problem. The result: full solutions are short-term memory (the long term memory is the code).
+
+All that to say, I want to take more ownership over the long term memory of the solution. Why don't I own it now?
+
+# My Code is not my Own
+I sell my output to my employer. My output is my code. While it is "mine" in the sense that I have written it, it is not "mine" in the sense of I own it and can do what I want with it. I can't take code I've written for my employer with me to another employer. Not only that, but I also don't want to.
+
+So how can I take my long term memory to another employer? This blog. If I say I've done X, but I can't remmber how I did it, or will "rediscover" much of how I've done it in the past... I feel like I should know the nuances of the solution.
+
+So here we are! If google brought you here for some reason, I apologize for my poor grammer and spelling but hope I help somewhat!
+
