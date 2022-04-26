@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 'Replace Me!'
+title: 'Regular Expressions (Regex)!'
 date: '2022-04-24'
 categories: general
 ---
@@ -11,9 +11,16 @@ What makes it worse is it's literally impossible to learn by looking at context 
 
 I'm writing this doc to try and help myself remember some regex concepts I keep returning to. While I could google all of this, it's much easier to come back here to see the highlights.
 
+# Concepts
+
+**Pattern:** A series of characters which define the string we will search for within the larger string.
+**Match:** A found result when applying the pattern against the input string.
+
 # Basic Patterns
 
-just some basic pattern matching
+**Periods:** Periods match any character.
+**Asterisks:** The * character matches against any number of whatever follows it.
+
 
 # Capture Groups
 
