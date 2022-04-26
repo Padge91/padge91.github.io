@@ -1,0 +1,31 @@
+---
+layout: post
+title: 'Replace Me!'
+date: '2022-04-24'
+categories: general
+---
+
+Regex is kind of a monster. It's appears daunting if you're not "in the know" with what it does, or even its purpose. I remember the first time I saw a merge conflict in Git (self learning for school project), and how I felt overwhelmed at the apparent junk that was dumped into my files. Even today, Regex makes me feel very much like that day.
+
+What makes it worse is it's literally impossible to learn by looking at context clues. You can tell what the *goal* of a regex statement is through some kind of comments or context clues, but the *how* can nly be discovered through dedicated learning. I think this is what makes it so intimidating; the only way to learn it is to study.
+
+I'm writing this doc to try and help myself remember some regex concepts I keep returning to. While I could google all of this, it's much easier to come back here to see the highlights.
+
+# Basic Patterns
+
+just some basic pattern matching
+
+# Capture Groups
+
+pulling stuff out of a string using regex.
+love this
+
+some real world applications
+
+
+
+# Cross Compatibility
+
+iOS and Safari compatibility issues
+
+.
