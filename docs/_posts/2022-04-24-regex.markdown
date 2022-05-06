@@ -20,19 +20,33 @@ I'm writing this doc to try and help myself remember some regex concepts I keep 
 
 **Periods:** Periods match any character.
 **Asterisks:** The * character matches against any number of whatever follows it.
-
+**Question Mark:** Seems to mean the preceding character is optional. 
+**Brackets:** Brackets seem to match a series or collection of characters. e.g. [A-z] matches any character between A and z. You can do this to look for a series of numbers like [0-9]*. Pretty neat.
+**Parentheses:** Seem to capture a group. So you could say (https?:\/\/) which would match both http:// and https://, but also capture the match in a group. This way you can pull out a protocol.
 
 # Capture Groups
 
-pulling stuff out of a string using regex.
-love this
+Expanding on capture groups a little, they're very powerful. Simply wrap a pattern in parentheses and you can retrieve the matched value instead of only confirming if the match exists.
 
-some real world applications
+Like the previous example, a pattern such as (https?:\/\/)/g will match if a http:// or https:// protocol is found in the string.
+
+BUT what's even cooler, you can name these patterns too. For example
+{% highlight %}
+pattern = /(?<protocol>https?:\/\/)(?<subdomain>[A-Za-z]*)?\.?(?<domain>[A-Za-z]*)\.(?<tld>[A-Za-z]*)
+s = "https://www.example.com"
+
+{% endhighlight %}
+The regex will pull out the protocol, the subdomain, the domain, and the top-level-domain (tld) as named groups. The above example isn't perfect, it will break when matched against a URL without a subdomain, but I think you get the idea. Super powerful stuff.
 
 
+Some examples I've used it for:
+* Parsing protocols and subdomains out of URLs. Like a customer providing a URL, I can trim out the bits we don't need and just focus on their provided subdomain. E.G. customer.salesforce.com.
+* Pulling variables out of a template. E.G. Hi my name is ${customer_name}. Regex can quickly find any named variables in the string, and can even replace them too!
+* Validating input formats. This one is up for debate on whether it's a good idea or not. While it's certainly NOT up for debate that input should be sanitized, should you really throw an error if a customer phone number doesn't have hyphens or parentheses? Wouldn't it be better to do your best to try to accept any number of input formats and reformat as needed? I digress, you can ensure a phone number matches a specific format without having to validate string length, checking for specific characters at specific locations, or optional characters, etc.
 
 # Cross Compatibility
 
-iOS and Safari compatibility issues
+The biggest issue I've come across with Regex is it's lack of universal support in (of course) browsers. In particular browsers installed on Apple products.
 
-.
+In my experience, it's been primarily "look ahead" patterns. It looks like a group but it's a little more advanced. E.G. Searching for a plural word "example(?=s)" will match "examples", I believe. There are ways around it so it's not too challenging but it can certainly be a pain to debug. Best to stay away from it and come up with an alternative.
+
