@@ -1,6 +1,31 @@
 ---
 layout: post
-title: 'Replace Me!'
-date: '2022-05-05'
+title: 'Etags and Conditional Responses!'
+date: '2022-05-08'
 categories: general
 ---
+
+
+# Caching in General
+Caching is... something. It's great when it works, but there's been numerous occassions where I've been "debugging" against non-issues due to unexpected cache behavior.
+
+But for real it's pretty great. Of course there's default HTTP cache headers like ...
+
+# Cache-Control
+This head just let's you set cache behavior. You can tell the response a max age, or to not cache at all, etc. Pretty basic.
+
+# Expires
+Tells more specifically an expiration time. Also cool.
+
+# If-Modified
+THIS is what I think is great. What happens, is the server sends an *Etag* header, and the value in this header is basically a key. The client then passes this key back to the server on the next request for the same resource on the *If-Modified* header, and the server compares the original value and the If-Modified value.
+
+If they're different, file has been changed and the full response is sent. If they're the same, The server just sends a 304 (Not Modified) response. The body will be empty, and the local cache will be used instead.
+
+Some values you could use as an Etag response? Whatever you want! I use a last_modified timestamo field on the object, which works perfectly. You could also use some kind of hash of the object, I think that's more common. 
+
+The downside is the request still needs to happen, and the server still needs to do some processing. It basically needs to get to the end of the response, and then compare it at the end to see if a 304 needs to be returned. It doesn't save a lot of server time, but it DOES save a lot on bandwidth. 
+
+Think about image files. You can do Cache-Control and Expires headers to have the browser cache them for a certain amount of time, and then use Etags too so when the regular cache expires, the Etag can refresh the cache without literally refreshing it.
+
+OR, how we use it, is for common/frequent requests. Think a client that pages an API for 60 seconds. Compare Etags and all the overhead (at least in the body of the response) is negated until it's actually changed.
