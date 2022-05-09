@@ -31,7 +31,7 @@ Expanding on capture groups a little, they're very powerful. Simply wrap a patte
 Like the previous example, a pattern such as (https?:\/\/)/g will match if a http:// or https:// protocol is found in the string.
 
 BUT what's even cooler, you can name these patterns too. For example
-{% highlight %}
+{% highlight python %}
 pattern = /(?<protocol>https?:\/\/)(?<subdomain>[A-Za-z]*)?\.?(?<domain>[A-Za-z]*)\.(?<tld>[A-Za-z]*)
 s = "https://www.example.com"
 
