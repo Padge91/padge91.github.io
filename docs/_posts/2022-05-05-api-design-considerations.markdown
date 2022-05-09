@@ -35,9 +35,13 @@ I've had the least experience with these, but what I have is generally positive.
 
 This gives us several benefits: faster processing, less junk data returned, more intentional parsing of requests. It's a pretty good idea.
 
-But, the biggest downside for me is if this is paired with poor documentation, it becomes much more difficult. For example, if a response returns an ID and a Name field on an object, and the documentation doesn't enumerate each other field; what am I to do? Guess? 
+But, a big downside for me is if this is paired with poor documentation, it becomes much more difficult. For example, if a response returns an ID and a Name field on an object, and the documentation doesn't enumerate each other field; what am I to do? Guess? 
 
 Another benefit is versioning. It's apparently easier to version this API, since the requested fields are added or removed and existing requests and responses remain the same (filling out removed fields with nulls, I presume).
+
+Yet another benefit is the frontend can request exactly what it needs and how it needs it. Relationships made easy!
+
+Finally, the biggest downside is the backend logic to make all this work. You gotta make a robust backend to handle the queries efficiently.
 
 # Designs of APIs
 Now I come to what I really wanted to discuss here. Different considerations when building out an API. Most of these topics aren't settled and are up for debate. I just want to record thoughts on each.
@@ -76,7 +80,6 @@ Paging improves performance and reduces costs, but at the expense of complexity.
 The functionality of the Paging in the API is probably more determinant on how you actually want to implement the paging in the data layer.
 
 
-
 ### Option A: Use a Limit and an Offset
 The easiest and most popular option, let the user provide a limit and an offset. A limit will tell us how many records we want (LIMIT in a db) and the offset will tell us where to start (OFFSET). 
 
@@ -92,12 +95,28 @@ Those are pretty big negatives.
 
 ### Option B: Use a Token/Keyset
 
+Pre-generate results and cache them with a randomized key. We need a big place for caching paged results, and new updates wont be added to cache. Then need logic to expire the cache too.
+
 ### Option C: Use a Field
+
+Pass an *after* or *before* field. I think this is more like filtering. Don't really like this approach.
 
 ## How to handle versioning
 
-## How to handle changing models
+IMO it's best to go ahead and start building an API off V1 immediately. When the models change field names, it's best to either include it in the same model (duplicate fields). When you start removing fields, you should make a change to V2.
+
+This way old code consuming the API will continue to work wihout needing any changes. When someone has time they can go back over and update it as needed. Same goes for structural changes too, but just modeling. In general, don't take things away if they could be being used.
+
+The trouble with this, of course, is managing 2 different models under the covers. E.G. Reworking one model into a combination of models. In the original API, the original model will have to be recreated into a single model. Not difficult, at least not with good tests.
+
+What about removing the old versioned code? If it's public facing, probably need to announce its deprecation date (being generous) and set up alerts/monitors for usage. Try to alert customers, try to return HTTP headers including warnings, etc.
+
+If it's an internal API, you still sould set up monitors and logging for the traffic on it, but once its tested and without any traffic for a time, it's okay to drop it.
 
 ## How to handle filtering/searching
 
-## How to handle URLs.
+This is one I've still had a hard time modeling. The current way I'm doing it is passing in a *search* argument which is a key/value url encoded string. The ORM can then look for those args and add conditions to the query relativly easily. 
+
+Still have to do some validation on whether the fields exist (probably rename some fields between db table and API) and such, but there's also compexities when searching for related objects. The join conditions with the filtering can get complex, especially when filtering on everything else.
+
+Obviously, this isn't a major problem for GraphQL, they pretty much have this built in.
