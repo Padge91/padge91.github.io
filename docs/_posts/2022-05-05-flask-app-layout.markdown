@@ -74,13 +74,9 @@ Not technically decorators but could be used in a similar fashion based on wheth
 
 {% highlight python %}
 
-def success_response(items, etag = None, pagination=None):
+def success_response(items, pagination=None):
 	data = {"success":True, "message":items}
-	if pagination is not None:
-		data["pagination"] = pagination
 	response = make_response(data, 200)
-	if etag is not None:
-		response.headers["Etag"] = '"'+str(etag)+'"'
 	return response
 
 
@@ -99,7 +95,7 @@ def if_modified_header(f):
         response = f(*args, **kwargs)
         etag = md5.hash(response)
         if etag == request.headers.get("If-None-Match"):
-            return make_response(code=304)
+            return make_response("", 304)
         else:
             response.headers["Etag"] = etag
             return response
@@ -189,9 +185,6 @@ def audit_log(*args, log_body=False):
 
 {% endhighlight %}
 
+# Other Functions
 
-# Services
-
-## AuditLog
-
-## Database ORM
+The other logic like permissions, audit log, feature flags, etc. are in other blogs.
