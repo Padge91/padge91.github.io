@@ -1,0 +1,85 @@
+---
+layout: post
+title: 'Audit Log'
+date: '2022-06-05'
+categories: 'general'
+---
+
+An audit log will capture all user behavior in a system. Not necessarily from a UX perspective but from a security perspective. We will be able to track any user behavior and, in theory, we could even replay it.
+
+This way if things go missing, we can cover our asses.
+
+# Audit Log Decorator
+I have a simple decorator for a flask endpoint which makes the audit log easy to configure for an endpoint.
+
+{% highlight python %}
+
+
+def audit_log(*args, log_data=False):
+    def decorator(f):
+
+        @wraps(f)
+        def wrapped(*args, **kwargs):
+            \# call the base function
+            response = f(*args, **kwargs)
+
+            \# get args from the function, could set these in the function or reuse the args
+            target_id = args.get("resource_id")
+
+            \# group id is assumed to be from the user object on the flask g object
+            group_id = g.user.group.id
+            
+            \# only record if successful responses
+            if response.status_code == 200:
+                src.services.auditlog.log(
+                    g.user.uuid, target_id, group_id, log_request_data)
+            return response
+
+        return wrapped
+    return decorator
+
+{% endhighlight %}
+
+# Audit Log service
+
+Service which actually records the logs
+
+{% highlight python %}
+
+
+def log_v3(user_uuid, target_id, group_id, log_request_data=False):
+    \# get remote ip of access
+    if request.headers.getlist("X-Forwarded-For"):
+        remote_ip = request.headers.getlist("X-Forwarded-For")[0]
+    else:
+        remote_ip = request.remote_addr
+
+    \# get action type
+    action_type = ({
+        "POST": "C",
+        "GET": "R",
+        "PUT": "U",
+        "DELETE": "D"
+    }).get(request.method)
+
+
+    \# get the data
+    request_data = None
+    if log_request_data:
+        if request.method == "GET":
+            request_data = request.args
+        elif request.method == "POST" or request.method == "PUT":
+            request_data = request.get_json()
+
+    # create audit log event
+    audit_log = src.models.AuditLog(
+        user_uuid=user_uuid, group_id=group_id,
+        target_id=target_id,
+        location=remote_ip, event_timestamp=datetime.datetime.utcnow(),
+        action_type=action_type, event_name=request.endpoint, description=request_data
+    )
+    sqlalchemy.add(audit_log)
+    sqlalchemy.commit()
+
+
+{% endhighlight %}
