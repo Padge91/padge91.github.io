@@ -99,3 +99,6 @@ ExecStart=/home/ubuntu/.local/share/virtualenvs/web-app-JJSHW/bin/uwsgi --ini /e
 [Install]
 WantedBy=multi-user.target
 {% endhighlight %}
+
+# Note
+In my experience, it seems like uwsgi also makes the whole directory also. This may be a side effect of Flask configuration with static file path being set to an empty string. In any case, if this is what happens, be sure to blacklist all the folder paths in Nginx or the ELB. 
