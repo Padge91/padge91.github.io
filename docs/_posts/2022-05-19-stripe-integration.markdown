@@ -236,7 +236,7 @@ def is_account_tier_a(account):
     return billing_info.sub_info.product.name == "Tier A"
 
 
-{% endhighlighy %}
+{% endhighlight %}
 
 Conversions.py
 {% highlight python %}
