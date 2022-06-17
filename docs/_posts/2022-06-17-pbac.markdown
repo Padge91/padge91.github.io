@@ -1,0 +1,70 @@
+---
+layout: post
+title: 'PBAC Logic'
+date: '2022-07-16'
+categories: 'general'
+---
+
+Policy-Based-Access-Control (PBAC) is a way to secure resources in a web app. It's pretty flexible and allows expansion over time. The biggest downside imo is the complexity for rules gets pushed to customers.
+
+We store a policy like so:
+{% highlight python %}
+
+{
+    "action:resource":"*",
+    "action2:resource":[1,2,3,4]
+}
+
+{% endhighlight %}
+
+In general, we have two resources:
+
+{% highlight python %}
+
+class Action(enum):
+    create = "create"
+    read = "read"
+    delete = "delete"
+    update = "update"
+
+class Resource(enum):
+    object = "object"
+
+{% endhighlight %}
+
+and a method:
+
+{% highlight python %}
+
+def has_permission(user, resource_id, resource_type, resouce_action):
+    key = resource_action+":"+resource_type
+    if key not in user.policy:
+        return False
+    else:
+        value = user.policy.get(key, [])
+        if isinstance(value, str):
+            if value == "*":
+                return True
+            else:
+                return False
+        elif isinstance(value, list):
+            if resource_id in list:
+                return True
+            else:
+                return False
+        return False
+
+{% endhighlight %}
+
+we can now call has_permission like so:
+
+{% highlight python %}
+
+if has_permission(user, resource.id, Resource.object, Action.create)
+    pass
+else:
+    raise NoPermissionException()
+
+{% endhighlight %}
+
+You can also add some logic to support multiple policies based on a users group, and just merge the policy objects.
