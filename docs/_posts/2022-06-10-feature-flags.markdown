@@ -74,7 +74,7 @@ class EnterpriseDefaults:
         Feature.ALLOWED_STORAGE.key: 100
     }
 
-{% endhiglight %}
+{% endhighlight %}
 
 # Using the flags
 
