@@ -1,0 +1,52 @@
+
+---
+layout: post
+title: 'Vagrant'
+date: '2022-07-16'
+categories: 'general'
+---
+
+Vagrant was once a very cool thing, but has fallen out of favor recently because of Docker and containers. I think it still has its place, but the configuration vars can be difficult to get right. Here's what works well for me.
+
+{% highlight ruby %}
+Vagrant.configure(2) do |config|
+
+   config.vm.box = "ubuntu/bionic64"
+   config.ssh.insert_key = false
+
+   config.vm.provider "virtualbox" do |vb|
+     vb.gui = true
+     vb.name = "PExample"
+     vb.customize ["modifyvm", :id, "--ioapic", "on"]
+     vb.customize ["modifyvm", :id, "--cpus", "2"]
+     vb.customize ["modifyvm", :id, "--vram", "12"] 
+     vb.customize ["modifyvm", :id, "--memory", 1024*8]
+
+    ####### code taken from SO to get space larger
+	# Validate this should be run it once
+  if ARGV[0] == "up" && ! File.exist?("./disk1.vdi")
+    vb.customize [
+      'createhd',
+      '--filename', "./disk1.vdi",
+      '--format', 'VDI',
+      # 10GB
+      '--size', 50 * 1024
+    ]
+
+    vb.customize [
+      'storageattach', :id,
+      '--storagectl', 'SATA Controller',
+      '--port', 1, '--device', 0,
+      '--type', 'hdd', '--medium',
+      './disk1.vdi'
+    ]
+  end
+
+	####### end code from SO
+  end
+
+  config.vm.provision "shell", path: "./scripts/install.sh"  
+  config.vm.synced_folder "./files/", "/vagrant/files/"
+end
+
+{% endhighlight %}
