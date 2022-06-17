@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 'HPython Docs'
+title: 'Python Docs'
 date: '2022-06-16'
 categories: 'general'
 ---
